@@ -10,8 +10,7 @@ public class CorsConfiguration extends WebMvcConfigurerAdapter {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/api/**").
-		allowedOrigins("http://localhost:4200").
-		allowedOrigins("http://demos.indusvalleylabs.com").
+		allowedOrigins("http://localhost:4200", "http://demos.indusvalleylabs.com").
         allowedMethods("*").
 		allowedHeaders("*");
 	}
