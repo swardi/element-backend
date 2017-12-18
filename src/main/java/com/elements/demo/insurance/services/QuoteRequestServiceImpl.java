@@ -6,6 +6,8 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.*;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,16 +26,18 @@ public class QuoteRequestServiceImpl implements QuoteRequestService {
 	
 	@Override
 	public List<String> validateQuoteRequest(QuoteRequest request) {
-//		Map<Integer, List<InsuranceModule>> moduleById = moduleService.getAllModules().stream()
-//		.collect(groupingBy(InsuranceModule::getId));
-//		request.getQuoteItems()
-//		.stream()
-//		.map(r -> validateQuoteItem())
-//		for(QuoteItem quoteItem : request.getQuoteItems()){
-//			
-//		}
-		return Collections.emptyList();
-		//return Collections.singletonList("validation not implemented");
+		List<String> errors = new ArrayList<String>();
+		for(QuoteItem item : request.getQuoteItems()){
+			InsuranceModule module = moduleService.getModulesMap()
+					.get(item.getModuleId());
+			if(item.getAmount()>0 && 
+					(item.getAmount()>module.getMaximumValue() || 
+					 item.getAmount()<module.getMinimumValue())){
+				errors.add(String.format("Coverage amount is not within allowed range for %s", 
+						module.getModuleName() ));
+			}
+		}
+		return errors;
 	}
 	
 	@Override

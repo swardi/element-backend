@@ -11,7 +11,7 @@ public class CorsConfiguration extends WebMvcConfigurerAdapter {
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/api/**").
 		allowedOrigins("http://localhost:4200").
-		//allowCredentials(true).
+		allowedOrigins("http://demos.indusvalleylabs.com").
         allowedMethods("*").
 		allowedHeaders("*");
 	}
